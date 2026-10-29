@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: HMA
+  jpa:
+    hibernate:
+      ddl-auto: validate
