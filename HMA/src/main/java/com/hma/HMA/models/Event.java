@@ -1,4 +1,4 @@
-package com.hma.HMA.model;
+package com.hma.HMA.models;
 
 import com.hma.HMA.enums.EventStatus;
 import com.hma.HMA.enums.EventType;
@@ -21,7 +21,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "name", nullable = false, length = 200)
     private String name;
