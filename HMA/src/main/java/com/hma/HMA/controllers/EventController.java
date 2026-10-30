@@ -1,68 +1,46 @@
 package com.hma.HMA.controllers;
 
+import com.hma.HMA.enums.EventStatus;
 import com.hma.HMA.enums.EventType;
 import com.hma.HMA.models.Event;
-import com.hma.HMA.repositories.EventRepository;
+import com.hma.HMA.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/events")
 public class EventController {
 
     @Autowired
-    EventRepository evRepo;
+    private EventService eventService;
 
-    @GetMapping("/api/events")
-    public List<Event> getAllEvents(){
-        return evRepo.findAll();
+    @GetMapping
+    public List<Event> getEvents(
+            @RequestParam(required = false) EventType type,
+            @RequestParam(required = false) EventStatus status) {
+
+        return eventService.getEvents(type, status);
     }
 
-    @GetMapping("/api/events?type={type}")
-    public List<Event> getTypeEvents(@RequestParam(required = false) EventType type) {
-        if (type != null) {
-            return evRepo.findByType(type);
-        }
-        return evRepo.findAll();
-    }
-
-    @GetMapping("/events/{id}")
+    @GetMapping("/{id}")
     public Event getEventById(@PathVariable Integer id) {
-        return evRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Evento com Id " + id + " não existe."));
+        return eventService.getEventById(id);
     }
 
-    @PostMapping("/api/events/")
-    public void createEvent(@RequestBody Event event){
-        evRepo.save(event);
+    @PostMapping
+    public Event createEvent(@RequestBody Event newEvent){
+        return eventService.createEvent(newEvent);
     }
 
-    @PutMapping("/api/events/{id}")
-    public void updateEvent(@PathVariable Integer id, @RequestBody Event updatedEvent){
-        Event event = evRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Evento com Id " + id + " não existe."));
-
-        event.setName(updatedEvent.getName());
-        event.setType(updatedEvent.getType());
-        event.setDate(updatedEvent.getDate());
-        event.setTime(updatedEvent.getTime());
-        event.setDuration(updatedEvent.getDuration());
-        event.setStatus(updatedEvent.getStatus());
-
-        evRepo.save(event);
+    @PutMapping("/{id}")
+    public Event updateEvent(@PathVariable Integer id, @RequestBody Event updatedEvent){
+        return eventService.updateEvent(id, updatedEvent);
     }
 
-    @DeleteMapping("/api/events/{id}")
+    @DeleteMapping("/{id}")
     public void deleteEvent(@PathVariable Integer id){
-        Event event = evRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Evento com Id " + id + " não existe."));
-
-        evRepo.delete(event);
+        eventService.deleteEvent(id);
     }
 }

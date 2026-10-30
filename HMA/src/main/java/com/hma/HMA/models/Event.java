@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -15,8 +16,7 @@ import java.time.LocalTime;
 @Data
 @Entity
 @Table(name = "event")
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Event {
 
     @Id
