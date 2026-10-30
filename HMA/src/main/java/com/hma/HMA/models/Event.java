@@ -2,17 +2,25 @@ package com.hma.HMA.models;
 
 import com.hma.HMA.enums.EventStatus;
 import com.hma.HMA.enums.EventType;
+
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Entidade que representa um Evento agendado (consulta médica ou treino).
+ *
+ * Corresponde à tabela "event" da base de dados. Cada evento tem um nome,
+ * um tipo, uma data e hora de início, uma duração em minutos e um estado.
+ * Os getters, setters, equals, hashCode e toString são gerados pelo Lombok (@Data).
+ */
 @Data
 @Entity
 @Table(name = "event")
